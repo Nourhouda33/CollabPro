@@ -159,6 +159,10 @@ List Projets
                                                         <th class="min-w-120px">Date Fin</th>
                                                         <th class="min-w-120px">Discription</th>
                                                         <th class="min-w-120px">Status</th>
+                                                        <th class="min-w-120px">Equipe</th>
+                                                        <th class="min-w-120px">Tache</th>
+
+
 
 
 
@@ -181,8 +185,9 @@ List Projets
                                                             <!--begin:: Avatar -->
                                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                                 
-                                                                                                    <div class="symbol-label">
-                                        {{projet.logo}}                                </div>
+                                                                   <div class="symbol-label">
+                                                                                                        <img [src]="projet.logo" style="width: 70px;">
+                                                                  </div>
                                                                                           
                                                             </div>
                                                             <!--end::Avatar-->
@@ -190,7 +195,10 @@ List Projets
                                                         </td>
 
                                                         <td class="text-gray-900 fw-bold text-hover-primary">
-                                                            {{projet.nom}}
+                                                            
+                                                            <a href="/ModifierProjet/{{projet.id}}" type="submit" 
+                                                            class="btn btn-icon btn-bg-light btn-active-color-primary">
+                                                            {{projet.nom}}</a>
 
                                                         </td>
 
@@ -206,8 +214,12 @@ List Projets
                                                         <td class="text-gray-900 fw-bold text-hover-primary ">
                                                                     {{projet.status}} </td>
 
-
+                                                                    <td class="text-gray-900 fw-bold text-hover-primary ">
+                                                                        {{projet.equipe.nom}} </td>
+                                                                        <td class="text-gray-900 fw-bold text-hover-primary ">
+                                                                            {{projet.tache.discription}} </td>
                                                         <td>
+
                                                             <button (click)="DeleteProjet(projet)" type="submit"
                                                                 class="btn btn-icon btn-bg-light btn-active-color-primary">
                                                                 <i class="fa-solid fa-trash"></i> </button>
@@ -10350,6 +10362,8 @@ List Projets
                         data-kt-scroll-offset="300px"
                     >
                         <!--begin::Input group-->
+                        
+                        <!--end::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="d-block fw-semibold fs-6 mb-5">Image</label>
@@ -10375,9 +10389,9 @@ List Projets
 
                                 <!--begin::Label-->
                                 <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
-                                    <i class="ki-duotone ki-pencil fs-7"><span class="path1"></span><span class="path2"></span></i>
+                                    <i class="bi bi-plus"><span class="path1"></span><span class="path2"></span></i>
                                     <!--begin::Inputs-->
-                                    <input  type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                    <input  type="file" name="avatar" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" formControlName="logo"/>
                                     <input type="hidden" name="avatar_remove" />
                                     <!--end::Inputs-->
                                 </label>
@@ -10385,12 +10399,12 @@ List Projets
 
                                 <!--begin::Cancel-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
-                                    <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                                </span>
+                                    <i class="bi bi-x"><span class="path1"></span><span class="path2"></span></i>                                </span>
                                 <!--end::Cancel-->
 
                                 <!--begin::Remove-->
                                 <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
-                                    <i class="ki-duotone ki-cross fs-2"><span class="path1"></span><span class="path2"></span></i>                                </span>
+                                    <i class="bi bi-x"><span class="path1"></span><span class="path2"></span></i>                                </span>
                                 <!--end::Remove-->
                             </div>
                             <!--end::Image input-->
@@ -10399,8 +10413,6 @@ List Projets
                             <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
                             <!--end::Hint-->
                         </div>
-                        <!--end::Input group-->
-                        
                         <div class="fv-row mb-7">
                             <label class="required fw-semibold fs-6 mb-2">Nom</label>
                             <input type="text" name="Nom" formControlName="nom" class="form-control" placeholder="Nom Projet...">
@@ -10409,12 +10421,12 @@ List Projets
                         <div class="fv-row mb-7">
                             <label class="required fw-semibold fs-6 mb-2">Date Debut</label>
 
-                            <input type="text" name="DateDebuit" formControlName="dateDebuit" class="form-control" placeholder="DateDebut...">
+                            <input type="date" name="DateDebuit" formControlName="dateDebuit" class="form-control" placeholder="DateDebut...">
                         </div>
                         <div class="fv-row mb-7">
                             <label class="required fw-semibold fs-6 mb-2">Date Fin</label>
 
-                            <input type="text" name="DtaFin" formControlName="dateFin" class="form-control" placeholder="DateDin...">
+                            <input type="date" name="DtaFin" formControlName="dateFin" class="form-control" placeholder="DateDin...">
                         </div>
                         <div class="fv-row mb-7">
                             <label class="required fw-semibold fs-6 mb-2">Description</label>
@@ -10422,7 +10434,33 @@ List Projets
                             <textarea type="text" name="Description" formControlName="discription" class="form-control"
                                 placeholder="Description..."></textarea>
                         </div>
+                        
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">Status</label>
+                            <select formControlName="status" class="form-control">
+                                <option value="Brouillon">Brouillon</option>
+                                <option value="En Cours">En Cours</option>
+                                <option value="Complete">Complete</option>
+                                <!-- Ajoutez autant d'options que nécessaire pour les différents statuts -->
+                            </select>
+                        </div>
+                        
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">Equipes</label>
+                            <select formControlName="equipe"  class="form-control">
+                                <option *ngFor="let equipe of Listequipe" [value]="equipe.id">{{equipe.nom}}</option>
+                            </select>
+    
+                        </div>
+                        <div class="fv-row mb-7">
+                            <label class="required fw-semibold fs-6 mb-2">Tache</label>
+                            <select formControlName="tache"  class="form-control">
+                                <option *ngFor="let tache of Listtache" [value]="tache.id">{{tache.discription}}</option>
+                            </select>
+    
+                        </div>
                     </div>
+                   
                          <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Ajouter</button>
                        </div>

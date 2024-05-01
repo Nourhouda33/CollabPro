@@ -9,9 +9,12 @@ import { DeveloppeursComponent } from './developpeurs/developpeurs.component';
 import { ResetMdpDevComponent } from './reset-mdp-dev/reset-mdp-dev.component';
 import { ModifierProjetComponent } from './modifier-projet/modifier-projet.component';
 import { ModifierDeveloppeurComponent } from './modifier-developpeur/modifier-developpeur.component';
-import { TacheComponent } from './tache/tache.component';
+
 import { FichierComponent } from './fichier/fichier.component';
 import { ContactComponent } from './contact/contact.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { TodoComponent } from './todo/todo.component';
+import { EquipeComponent } from './equipe/equipe.component';
 
 const routes: Routes = [
   {path:'Login',component :LoginComponent},
@@ -21,10 +24,12 @@ const routes: Routes = [
   {path:'ResetMdpDev',component:ResetMdpDevComponent},
   {path:'ModifierProjet/:id',component:ModifierProjetComponent,canActivate:[AuthGuard]},
   {path:'ModifierDev/:id',component:ModifierDeveloppeurComponent,canActivate:[AuthGuard]},
-  {path:'Tache',component:TacheComponent ,canActivate:[AuthGuard]},
+
   {path:'Fichier',component:FichierComponent ,canActivate:[AuthGuard]},
-  {path:'Profile',component:ProfilComponent ,canActivate:[AuthGuard]},
+  {path:'profile',component:ProfilComponent ,canActivate:[AuthGuard]},
   {path:'contact',component:ContactComponent ,canActivate:[AuthGuard]},
+  {path:'navbar',component:TodoComponent ,canActivate:[AuthGuard]},
+  {path:'Equipe',component:EquipeComponent, canActivate:[AuthGuard]},
 
 
 

@@ -36,7 +36,6 @@ export class ModifierDeveloppeurComponent {
       
       email: new FormControl('', [Validators.required]),
       pswd: new FormControl('', [Validators.required]),
-      role: new FormControl('', [Validators.required]),
 
     };
     this.userDetails = this.service.userDetails();
@@ -57,9 +56,7 @@ export class ModifierDeveloppeurComponent {
   get pswd() {
     return this.DeveloppeursForm.get('pswd');
   }
-  get role() {
-    return this.DeveloppeursForm.get('role');
-  }
+ 
 
 
 
@@ -74,7 +71,7 @@ export class ModifierDeveloppeurComponent {
         prenom: event.prenom, 
         email: event.email, 
         pswd: event.pswd,
-      role: event.role,});});
+      });});
     
     
       this.service.getContact().subscribe(contact =>{
@@ -94,7 +91,6 @@ export class ModifierDeveloppeurComponent {
       data.prenom,
       data.email,
       data.pswd, 
-      data.role,
       );
     console.log(developpeurs);
     console.log(data);

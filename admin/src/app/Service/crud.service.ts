@@ -8,6 +8,7 @@ import { Contact } from '../Entity/Contact.Entity';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Developpeurs } from '../Entity/Developpeurs.Entity';
 import { Fichier } from '../Entity/Fichier.Entity';
+import { Equipe } from '../Entity/Equipe.Entity';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,10 @@ export class CrudService {
     const url =`${this.apiUrl+"/fichier"}/${id}` 
     return this.http.delete(url)
   }
+  onDeleteEquipe(id : number){
+    const url =`${this.apiUrl+"/equipe"}/${id}` 
+    return this.http.delete(url)
+  }
   onDeleteProjet(id : number){
     const url =`${this.apiUrl+"/Projet"}/${id}` 
     return this.http.delete(url)
@@ -75,6 +80,9 @@ export class CrudService {
   }
   getDeveloppeurs(): Observable<Developpeurs[]>{
     return this.http.get<Developpeurs[]>(this.apiUrl + "/Developpeurs");
+  }
+  getEquipe(): Observable<Equipe[]>{
+    return this.http.get<Equipe[]>(this.apiUrl + "/equipe");
   }
 
   updateDeveloppeurs(developpeurs: Developpeurs,id:number,) {
@@ -89,6 +97,12 @@ export class CrudService {
   addContact(contact:Contact)
    {
     return this.http.post<any>(this.apiUrl+"/Contact",contact);
+   
+  }
+  
+  addEquipe(equipe:Equipe)
+   {
+    return this.http.post<any>(this.apiUrl+"/equipe",equipe);
    
   }
 
@@ -124,6 +138,11 @@ export class CrudService {
     const url = `${this.apiUrl + "/Projet"}/${id};`
     return this.http.get<Projet>(url)
   }
+  findEquipeById(id : number): Observable<Equipe> {
+    const url = `${this.apiUrl + "/equipe"}/${id};`
+    return this.http.get<Equipe>(url)
+  }
+  
   
   findDeveloppeursById(id : number): Observable<Developpeurs> {
     const url = `${this.apiUrl + "/Developpeurs"}/${id};`

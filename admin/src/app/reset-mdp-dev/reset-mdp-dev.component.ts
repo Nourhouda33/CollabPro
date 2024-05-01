@@ -55,10 +55,10 @@ resetmdpclt() {
       console.log(err);
       this.toast.success({
         detail: 'Succes Message',
-        summary: 'Connexion avec succés',
+        summary: 'Envoyer Email avec succés',
 
       }); 
-      this.router.navigate(['/login']).then(()=>window.location.reload());
+      this.router.navigate(['/Login']).then(()=>window.location.reload());
 
     }
   )

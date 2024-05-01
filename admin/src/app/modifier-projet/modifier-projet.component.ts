@@ -5,6 +5,8 @@ import { NgToastService } from 'ng-angular-popup';
 import { Projet } from '../Entity/Projet.Entity';
 import { CrudService } from '../Service/crud.service';
 import { Developpeurs } from '../Entity/Developpeurs.Entity';
+import { Equipe } from '../Entity/Equipe.Entity';
+import { Tache } from '../Entity/Tache.Entity';
 
 @Component({
   selector: 'app-modifier-projet',
@@ -12,10 +14,20 @@ import { Developpeurs } from '../Entity/Developpeurs.Entity';
   styleUrls: ['./modifier-projet.component.css']
 })
 export class ModifierProjetComponent {
-  ListDeveloppeurs:Developpeurs[];
+  ListEquipe:Equipe[];
   id: number;
-  DeveloppeursForm:FormGroup;
+  EquipeForm:FormGroup;
   updateForm: FormGroup;
+  ListProjet :Projet[];
+  Listequipe :Equipe[];
+  Listtache:Tache[];
+  userFile :any
+  message:any
+  imagePath:any
+  imgURL:any
+  
+  champsEditable: boolean = false;
+  boutonVisible: boolean = false;
  
   currentProjet = new Projet()
   constructor(
@@ -31,24 +43,34 @@ export class ModifierProjetComponent {
         Validators.minLength(4),
       ]),
      
-      dateDebut: new FormControl('', [Validators.required]),
+      dateDebuit: new FormControl('', [Validators.required]),
 
       
       dateFin: new FormControl('', [Validators.required]),
       discription: new FormControl('', [Validators.required]),
-      status: new FormControl('', [Validators.required]),
-      logo: new FormControl('', [Validators.required]),
+      logo: new FormControl('',[
+        Validators.required,]),
+        status: new FormControl('',[
+          Validators.required,]),
+          equipeNom: new FormControl('',[
+            Validators.required,]),
+            equipeLogo: new FormControl('',[
+              Validators.required,]),
+              
+            equipeDis: new FormControl('',[
+              Validators.required,]),
 
      
     };
     this.updateForm = this.fb.group(formControles);
+    this.EquipeForm = this.fb.group(formControles);
   }
 
   get nom() {
     return this.updateForm.get('nom');
   }
-  get dateDebut() {
-    return this.updateForm.get('dateDebut');
+  get dateDebuit() {
+    return this.updateForm.get('dateDebuit');
   }
   get dateFin() {
     return this.updateForm.get('dateFin');
@@ -57,57 +79,108 @@ export class ModifierProjetComponent {
   get discription() {
     return this.updateForm.get('discription');
   }
-  get status() {
-    return this.updateForm.get('status');
+  
+  get logo() { return this.updateForm.get('logo');}
+  get status() { return this.updateForm.get('status');}
+  get equipe() { return this.updateForm.get('equipe');}
+  get tache() { return this.updateForm.get('tache');}
+  
+  onSelectFile(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.userFile = file;
+      var mimeType = event.target.files[0].type;
+      if (mimeType.match(/image\/*/) == null) {
+        this.message = 'Only images are supported.';
+        return;
+      }
+      var reader = new FileReader();
+      this.imagePath = file;
+      reader.readAsDataURL(file);
+      reader.onload = (_event) => {
+        this.imgURL = reader.result;
+      };
+    }
   }
-  get logo() {
-    return this.updateForm.get('logo');
-  }
-
 
 
   ngOnInit(): void {
-    let idEvent = this.router.snapshot.params['id'];
-    this.id = idEvent;
-    this.service.findProjetById(idEvent).subscribe((result) => {
-      let event = result;
-      console.log(event);
-      this.updateForm.patchValue({
-        nom: event.nom,
-        dateDebut: event.dateDebuit, 
-        dateFin: event.dateFin, 
-        discription: event.discription, 
-        status: event.status,
-        logo: event.logo, });});
+    
+    this.service.getEquipe().subscribe(equipe => {
+      this.Listequipe = equipe
+    })
+    this.service.getTache().subscribe(tache => {
+      this.Listtache = tache
+    })
       
-      
-      
-        this.service.findDeveloppeursById(idEvent).subscribe((result) => {
-          let event = result;
-          console.log(event);
-          this.DeveloppeursForm.patchValue({
-            nom: event.nom,
-            prenom: event.prenom, 
-            email: event.email,
-            mdp: event.pswd,
-          role: event.role,});});
-        this.service.getDeveloppeurs().subscribe(developpeurs => {
-          this.ListDeveloppeurs = developpeurs
+          let idEvent = this.router.snapshot.params['id'];
+          this.id = idEvent;
+          this.service.findProjetById(idEvent).subscribe((result) => {
+            let event = result;
+            console.log(event);
+           
+            this.updateForm.patchValue({
+              
+              nom: event.nom,
+              dateDebuit: event.dateDebuit,
+              dateFin : event.dateFin,
+              discription: event.discription,
+              logo: event.logo,
+              status: event.status,
+              equipeNom: event.equipe.nom,
+              equipeDis :event.equipe.discription,
+
+
+       });}); 
+            
+              this.service.getProjet().subscribe(projet => {
+                this.ListProjet = projet
+        
+        
+        
+        
+        
+        
         })}
   UpdateProjet() {
     let data = this.updateForm.value;
     let projet =new Projet(
       this.id,
       data.nom,
-      data.dateDebut,
+      data.dateDebuit,
       data.dateFin,
       data.discription,
+      this.imgURL,
       data.status, 
-    data.logo);
+      data.equipeNom, 
+      
+     
+    
+    
+    
+  
+  );
     console.log(projet);
     console.log(data);
     this.service.updateProjet(this.id,projet).subscribe((res) => {
       console.log(res);
       this.route.navigate(['/projet'])}); }
+
+
+
+
+
+
+
+      basculerEditionChamps() {
+        this.champsEditable = !this.champsEditable;
+        if (this.champsEditable) {
+          this.updateForm.enable();
+          this.boutonVisible = true;
+        } else {
+          this.updateForm.disable();
+          this.boutonVisible = false;
+        }
+      }
 
 }

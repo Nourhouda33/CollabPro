@@ -92,7 +92,7 @@
                      
             <!--begin::Item-->
                             <li class="breadcrumb-item text-gray-600 fw-bold lh-1">
-                                            Equipe                                   </li>
+                                            developpeurs                                  </li>
                         <!--end::Item-->
 
                                     
@@ -105,7 +105,7 @@
 <div class="page-title d-flex align-items-center me-3">
     <!--begin::Title-->
     <h1 class="page-heading d-flex text-gray-900 fw-bolder fs-1 flex-column justify-content-center my-0">
-        List Members
+        List developpeurs
             </h1>
     <!--end::Title-->    
 </div>
@@ -134,7 +134,7 @@
 
                                     <div class="card-body py-3">
                                         <a class="btn btn-success" style="position: relative;
-                                                left: 990px;" data-toggle="modal" data-target="#exampleModal">Ajouter Member</a>
+                                                left: 990px;" data-toggle="modal" data-target="#exampleModal">Ajouter developpeur</a>
                                         <!--begin::Table container-->
                                         
                                             <table
@@ -155,9 +155,8 @@
                                                         <th class="min-w-140px">Nom</th>
                                                         <th class="min-w-120px">Prenom</th>
                                                         <th class="min-w-120px">Email</th>
-                                                        <th class="min-w-120px">Role</th>
-
-
+                                                        <th class="min-w-120px">Adresse</th>
+                                                        <th class="min-w-120px">Télephone</th>
                                                         <th class="min-w-140px ">Actions</th>
                                                     </tr>
                                                 </thead>
@@ -165,7 +164,7 @@
 
                                                 <!--begin::Table body-->
                                                 <tbody>
-                                                    <tr *ngFor="let developpeurs of ListDeveloppeurs |paginate:{itemsPerPage:6,currentPage:p}">
+                                                    <tr *ngFor="let developpeurs of ListDeveloppeurs |paginate:{itemsPerPage:5,currentPage:p}">
                                                         
 
 
@@ -175,7 +174,9 @@
                                                         <td class="d-flex align-items-center">
                                                             <!--begin:: Avatar -->
                                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                
+                                                                <div class="symbol-label">
+                                                                    <img [src]="developpeurs.img" style="width: 70px;">
+                                                                </div>
                                                                                                    
                                                                                           
                                                             </div>
@@ -194,10 +195,16 @@
                                                         </td>
 
                                                         <td class="text-gray-900 fw-bold text-hover-primary ">
-                                                            {{developpeurs.email}} </td>              <td>  
-															   <div class="badge badge-light fw-bold">{{developpeurs.role}}</div>
-															</td> 
-
+                                                            {{developpeurs.email}} </td>              
+                                                            <td class="text-gray-900 fw-bold text-hover-primary ">
+                                                                {{developpeurs.adresse}}
+    
+                                                            </td>
+                                                            <td class="text-gray-900 fw-bold text-hover-primary ">
+                                                                {{developpeurs.tel}}
+    
+                                                            </td>
+                                                            
 
 															<td>
                                                                 <button (click)="DeleteDeveloppeur(developpeurs)" type="submit"
@@ -10089,7 +10096,7 @@
         <div class="modal-content">
             <!--begin::Modal header-->
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Nouveau Membre </h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nouveau developpeur </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -10099,7 +10106,7 @@
             <!--begin::Modal body-->
             <div class="modal-body px-5 my-7">
                 <!--begin::Form-->
-				<form  (ngSubmit)="addNewDeveloppeurs()" [formGroup]="DeveloppeursForm ">
+				<form  (ngSubmit)="addNewDeveloppeurs()" [formGroup]="DeveloppeursForm">
                     <!--begin::Scroll-->
                     <div 
                         class="d-flex flex-column scroll-y px-5 px-lg-10" 
@@ -10139,7 +10146,7 @@
                                 <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
                                     <i class="ki-duotone ki-pencil fs-7"><span class="path1"></span><span class="path2"></span></i>
                                     <!--begin::Inputs-->
-                                    <input  type="file" name="avatar" accept=".png, .jpg, .jpeg" />
+                                    <input  type="file" name="avatar" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)" formControlName="img" />
                                     <input type="hidden" name="avatar_remove" />
                                     <!--end::Inputs-->
                                 </label>
@@ -10163,7 +10170,7 @@
                         </div>
                         <!--end::Input group-->
 
-                        <!--begin::Input group-->
+                        <!--begin::Input group nom-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">Nom</label>
@@ -10174,7 +10181,7 @@
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-<!--begin::Input group-->
+<!--begin::Input group prenom-->
 <div class="fv-row mb-7">
 	<!--begin::Label-->
 	<label class="required fw-semibold fs-6 mb-2">Prenom</label>
@@ -10185,7 +10192,7 @@
 	<!--end::Input-->
 </div>
 <!--end::Input group-->
-                        <!--begin::Input group-->
+                        <!--begin::Input group email-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">Email</label>
@@ -10196,7 +10203,7 @@
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-						<!--begin::Input group-->
+						<!--begin::Input group pswd-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">Mots De Passe</label>
@@ -10208,109 +10215,26 @@
                         </div>
                         <!--end::Input group-->
 
-                        <!--begin::Input group-->
-                        <div class="mb-5">
+                        
+                        <!--begin::Input group adresse-->
+                        <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-5">Role</label>
+                            <label class="required fw-semibold fs-6 mb-2">Adresse</label>
                             <!--end::Label-->
 
-                            <!--begin::Roles-->
-                                                            <!--begin::Input row-->
-                                <div class="d-flex fv-row">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <!--begin::Input-->
-                                        <input class="form-check-input me-3" formControlName="role" name="user_role" type="radio" value="Développeur" id="kt_modal_update_role_option_0" checked='checked' />
-                                        <!--end::Input-->
+                            <!--begin::Input-->
+                            <input type="text" name="adresse" formControlName="adresse" class="form-control" placeholder="Adresse...">
+                            <!--end::Input-->
+                        </div>
+                        <!--begin::Input group tel-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Télephone</label>
+                            <!--end::Label-->
 
-                                        <!--begin::Label-->
-                                        <label class="form-check-label" for="kt_modal_update_role_option_0">
-                                            <div class="fw-bold text-gray-800">Développeur</div>
-                                            <div class="text-gray-600">Code les fonctionnalités du logiciel</div>
-                                        </label>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                                <!--end::Input row-->
-
-                                <div class='separator separator-dashed my-5'></div>                                                            <!--begin::Input row-->
-                                <div class="d-flex fv-row">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <!--begin::Input-->
-                                        <input class="form-check-input me-3" formControlName="role" name="user_role" type="radio" value="1" id="kt_modal_update_role_option_1"  />
-                                        <!--end::Input-->
-
-                                        <!--begin::Label-->
-                                        <label class="form-check-label" for="kt_modal_update_role_option_1">
-                                            <div class="fw-bold text-gray-800">Architecte</div>
-                                            <div class="text-gray-600">conçoivent l'architecture globale du système</div>
-                                        </label>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                                <!--end::Input row-->
-
-                                <div class='separator separator-dashed my-5'></div>                                                            <!--begin::Input row-->
-                                <div class="d-flex fv-row">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <!--begin::Input-->
-                                        <input class="form-check-input me-3" formControlName="role" name="user_role" type="radio" value="2" id="kt_modal_update_role_option_2"  />
-                                        <!--end::Input-->
-
-                                        <!--begin::Label-->
-                                        <label class="form-check-label" for="kt_modal_update_role_option_2">
-                                            <div class="fw-bold text-gray-800">Busines Analyst</div>
-                                            <div class="text-gray-600"> identifient les besoins des utilisateurs et définissent les exigences du projet</div>
-                                        </label>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                                <!--end::Input row-->
-
-                                <div class='separator separator-dashed my-5'></div>                                                            <!--begin::Input row-->
-                                <div class="d-flex fv-row">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <!--begin::Input-->
-                                        <input class="form-check-input me-3" formControlName="role" name="user_role" type="radio" value="3" id="kt_modal_update_role_option_3"  />
-                                        <!--end::Input-->
-
-                                        <!--begin::Label-->
-                                        <label class="form-check-label" for="kt_modal_update_role_option_3">
-                                            <div class="fw-bold text-gray-800"> testeur</div>
-                                            <div class="text-gray-600">veillent à la qualité du produit en effectuant des tests et des validations</div>
-                                        </label>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                                <!--end::Input row-->
-
-                                <div class='separator separator-dashed my-5'></div>                                                            <!--begin::Input row-->
-                                <div class="d-flex fv-row">
-                                    <!--begin::Radio-->
-                                    <div class="form-check form-check-custom form-check-solid">
-                                        <!--begin::Input-->
-                                        <input class="form-check-input me-3" formControlName="role" name="user_role" type="radio" value="4" id="kt_modal_update_role_option_4"  />
-                                        <!--end::Input-->
-
-                                        <!--begin::Label-->
-                                        <label class="form-check-label" for="kt_modal_update_role_option_4">
-                                            <div class="fw-bold text-gray-800"> UX designer</div>
-                                            <div class="text-gray-600">travaillent sur l'expérience utilisateur en concevant des interfaces conviviales et intuitives</div>
-                                        </label>
-                                        <!--end::Label-->
-                                    </div>
-                                    <!--end::Radio-->
-                                </div>
-                                <!--end::Input row-->
-
-                                                                                        <!--end::Roles-->
+                            <!--begin::Input-->
+                            <input type="text" name="Télephone" formControlName="tel" class="form-control" placeholder="Télephone...">
+                            <!--end::Input-->
                         </div>
                                 
                     </div>
@@ -10341,7 +10265,27 @@
     </div>
     <!--end::Modal dialog-->
 
-  </div></div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+  
 </body>
 
 </html>

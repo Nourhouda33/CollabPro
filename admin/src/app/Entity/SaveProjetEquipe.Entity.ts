@@ -1,4 +1,4 @@
-export class Produit {
+export class SaveProjetEquipe {
     constructor (
         public id?: number,
         public nom?: string,
@@ -7,8 +7,8 @@ export class Produit {
         public discription?: string,
         public logo?: string,
         public status?: string,
-        public IdEquipe?: number,
-        public IdTache?: number,
+        public idEquipe?: number,
+        public idTache?: number,
 
 
             ){}

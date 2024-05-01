@@ -1,12 +1,9 @@
-import { Developpeurs } from "./Developpeurs.Entity";
-
-export class Equipe{
+export class SaveDeveloppeurEquipe{
     constructor(
         public id ?: number,
         public nom?:String,
-        
         public discription?: String,
-        public developpeurs?: Developpeurs,
+        public idDeveloppeurs?:number,
         
     ){}
 }

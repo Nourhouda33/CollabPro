@@ -19,40 +19,60 @@ export class ProfilComponent {
   totalDeveloppeurs=0
   id : number;
   AdminForm: FormGroup;
+  champsEditable: boolean = false;
+  boutonVisible: boolean = false;
 
 
-    constructor( private fb: FormBuilder,
-      private service: CrudService,
-      private router: Router,
-      private route: ActivatedRoute)
-     { 
-      let formControles = {
-        nom: new FormControl('', [
-          Validators.required,
-          Validators.pattern("[a-z A-Z .'-]+"), 
-          Validators.minLength(4),
-        ]),
-        prenom: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.required]),
-        pswd: new FormControl('', [Validators.required]),
-        adresse: new FormControl('', [Validators.required]),
-
-        phone: new FormControl('', [Validators.required]),
-
+  constructor(
+    private fb: FormBuilder,
+    private service: CrudService,
+    private route: Router,
+    private router: ActivatedRoute
+  ) {
   
-      };
-      this.userDetails = this.service.userDetails();
-
-     }
-     
+    this.userDetails = this.service.userDetails();
+  
+    this.AdminForm = this.fb.group({
+      nom: [this.userDetails ? this.userDetails.nom : '', [
+        Validators.required,
+      
+      ]],
+      prenom: [this.userDetails ? this.userDetails.prenom : '', [Validators.required]],
+      email: [this.userDetails ? this.userDetails.email : '', [Validators.required]],
+      pswd: [this.userDetails ? this.userDetails.pswd : '', [Validators.required]],
+      adresse: [this.userDetails ? this.userDetails.adresse : '', [Validators.required]],
+      phone: [this.userDetails ? this.userDetails.phone : '', [Validators.required]],
+    });
+  
+    this.AdminForm.disable();
+  }
+  
 
      logout(){
       console.log("logout");
       localStorage.clear()
      
-      this.router.navigate(['/Login']);
+      this.route.navigate(['/Login']);
      }
      ngOnInit(): void {
+      this.id = this.userDetails.id;
+  
+    this.service.findAdminById(this.id).subscribe(
+      (result) => {
+        // Succès : mettre à jour le formulaire avec les détails de l'admin
+        this.AdminForm.patchValue({
+          nom: result.nom,
+          prenom: result.prenom,
+          email: result.email,
+          pswd: result.pswd,
+          
+          adresse: result.adresse,
+          phone: result.phone,
+          
+        });
+      },
+    
+    );
 
 
 
@@ -72,12 +92,25 @@ export class ProfilComponent {
         data.nom,
         data.prenom,
         data.email,
-        data.pswd, 
+        data.pswd,
+        data.adresse,
+        data.phone, 
         );
       console.log(admin);
       console.log(data);
       this.service.updateAdmin(this.id,admin).subscribe((res) => {
         console.log(res);
-        this.router.navigate([''])}); }
+        this.route.navigate(['/profil'])}); }
+        
+    basculerEditionChamps() {
+      this.champsEditable = !this.champsEditable;
+      if (this.champsEditable) {
+        this.AdminForm.enable();
+        this.boutonVisible = true;
+      } else {
+        this.AdminForm.disable();
+        this.boutonVisible = false;
+      }
+    }
    
 }
